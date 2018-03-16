@@ -37,7 +37,7 @@ io.on('connection',(socket)=>{
   console.log('connection made successfully', socket.id, 'total connections alive ',connections.length);
 
     socket.on('disconnect',function (socet) {
-        connections.slice(connections.indexOf(socet),1);
+        connections.splice(connections.indexOf(socet),1);
         console.log('user disconnected ',connections.length);
     });
 
@@ -51,10 +51,14 @@ io.on('connection',(socket)=>{
     })
 
     socket.on('parchiUchalo',function (data) {
-        console.log('data is ',data)
+        console.log('data is ',data, ' connections ',connections[0].id)
         var arrCopy = connections;
+        socket.to(arrCopy[0].id).emit('userParchi', {name:data.parchi[0]});
+
         for(var i = 0;i<arrCopy.length;i++){
-            socket.to(arrCopy[i].id).emit('userParchi', 'You got: '+data.parchi[i]);
+            console.log('check the id ',arrCopy[i].id, 'data is ',data.parchi[i]);
+            socket.to(arrCopy[i].id).emit('userParchi', {name:data.parchi[i]});
+            // socket.send('hi there')
         }
     })
 });

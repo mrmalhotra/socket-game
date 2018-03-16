@@ -43,7 +43,7 @@
 </html>
 
 <script>
-    var socket = io.connect('http://localhost:3000');
+    var socket = io.connect('https://chgame.herokuapp.com/');
 
     var msg = document.getElementById('msg'),
         handle = document.getElementById('handle'),
@@ -84,6 +84,7 @@
         socket.emit('parchiUchalo',{
             parchi:parchi
         })
+        parchi = [];
     })
 
     $("#msg").keypress(function(){
@@ -98,7 +99,8 @@
   })
 
     socket.on('userParchi',function (data) {
-        $('div#output').append(`<strong>${data.handle}: </strong>${data.message}`)
+        console.log('user got parchi ',data)
+        $('div#output').append(`<p>You've got <strong>${data.name}</strong></p>`)
     })
 
 </script>
