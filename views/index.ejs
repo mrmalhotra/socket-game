@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= title %></title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
+
+    <script src ="/chat.js"></script>
+
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <div id="mario-chat">
+      <div id="chat-window">
+        <div id="output">
+
+        </div>
+      </div>
+    </div>
+    <input type="text" id="handle" placeholder="handle" class="form-control">
+    <input type="text" id="msg" placeholder="message"class="form-control">
+    <input type="button" id="send" value="shoot" class="form-control">
+
+  </body>
+</html>
+
+<script>
+    var socket = io.connect('http://localhost:3000');
+
+    var msg = document.getElementById('msg'),
+        handle = document.getElementById('handle'),
+        otpt = document.getElementById('output'),
+        btn =  document.getElementById('send');
+
+
+    $('#send').click(function () {
+        console.log('yeah button has been clicked ');
+        socket.emit('chat',{
+            message:msg.value,
+            handle: handle.value
+        })
+    })
+
+    $("#msg").keypress(function(){
+        console.log('keypressed');
+        socket.emit('typing',{
+            handle:handle.value
+        })
+    });
+
+  socket.on('chat',function (data) {
+      $('div#output').append(`<strong>${data.handle}: </strong>${data.message}`)
+  })
+</script>
