@@ -7,7 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('socket:server');
 var http = require('http');
-
+var connections = [];
 /**
  * Get port from environment and store in Express.
  */
@@ -33,7 +33,14 @@ var socket = require('socket.io');
 var io = socket(server);
 
 io.on('connection',(socket)=>{
-  console.log('connection made successfully', socket.id);
+    connections.push(socket)
+  console.log('connection made successfully', socket.id, 'total connections alive ',connections.length);
+
+    socket.on('disconnect',function (socet) {
+        connections.slice(connections.indexOf(socet),1);
+        console.log('user disconnected ',connections.length);
+    });
+
   socket.on('chat',function (data) {
       console.log('data is ',data);
       io.sockets.emit('chat',data);
@@ -41,6 +48,10 @@ io.on('connection',(socket)=>{
 
     socket.on('typing',function (data) {
       console.log('typing ',data);
+    })
+
+    socket.on('parchiUchalo',function (data) {
+        console.log('data is ',data)
     })
 })
 /**

@@ -18,6 +18,14 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
+  <div class="row">
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4">
+      <button class="btn btn-primary" id="newParchi">Uchal Do Parchi</button>
+    </div>
+    <div class="col-sm-4"></div>
+
+  </div>
     <div id="mario-chat">
       <div id="chat-window">
         <div id="output">
@@ -46,6 +54,33 @@
         socket.emit('chat',{
             message:msg.value,
             handle: handle.value
+        })
+    })
+
+    $('#newParchi').click(function () {
+        console.log('yeah button has been clicked ');
+        var arr = ['chor','raja','police','mantri'];
+        var parchi = [];
+        var i = arr.length;
+
+        function remove(array, element) {
+            const index = array.indexOf(element);
+            array.splice(index, 1);
+        }
+
+       while(i > 0){
+           console.log('in arr ');
+           var index = Math.floor(Math.random() * i);
+           console.log('index ',index);
+           if(arr[index]){
+               console.log('parchi ',arr[index])
+               parchi.push(arr[index])
+               remove(arr,arr[index])
+               i--;
+           }
+       }
+        socket.emit('parchiUchalo',{
+            parchi:parchi
         })
     })
 
