@@ -52,8 +52,12 @@ io.on('connection',(socket)=>{
 
     socket.on('parchiUchalo',function (data) {
         console.log('data is ',data)
+        var arrCopy = connections;
+        for(var i = 0;i<arrCopy.length;i++){
+            socket.to(arrCopy[i].id).emit('userParchi', 'You got: '+data.parchi[i]);
+        }
     })
-})
+});
 /**
  * Normalize a port into a number, string, or false.
  */

@@ -19,7 +19,9 @@
   </head>
   <body>
   <div class="row">
-    <div class="col-sm-4"></div>
+    <div class="col-sm-4">
+      <!--Users Active: null <h6 id="usersActive"></h6>-->
+    </div>
     <div class="col-sm-4">
       <button class="btn btn-primary" id="newParchi">Uchal Do Parchi</button>
     </div>
@@ -94,4 +96,9 @@
   socket.on('chat',function (data) {
       $('div#output').append(`<strong>${data.handle}: </strong>${data.message}`)
   })
+
+    socket.on('userParchi',function (data) {
+        $('div#output').append(`<strong>${data.handle}: </strong>${data.message}`)
+    })
+
 </script>
